@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
 import "./App.css";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import Impressum from "./pages/Impressum";
+import Datenschutz from "./pages/Datenschutz";
+import Haftung from "./pages/Haftung";
 
 // Zahl als Euro formatieren
 function euro(value) {
@@ -189,10 +193,7 @@ export default function App() {
     return schedule;
   }, [loanAmount, interestRate, monthlyPayment, specialRepayment]);
 
-  // ===============================
-  // UI
-  // ===============================
-  return (
+  const Home = () => (
     <div style={{ maxWidth: 820, margin: "40px auto", fontFamily: "system-ui" }}>
       <h1>Immobilienfinanzierungsrechner</h1>
       <p>
@@ -305,8 +306,7 @@ export default function App() {
         </p>
 
         <p>
-          Kreditlaufzeit (bis Volltilgung):{" "}
-          <strong>{payoffInfo.yearsText}</strong>
+          Kreditlaufzeit (bis Volltilgung): <strong>{payoffInfo.yearsText}</strong>
         </p>
 
         <p>
@@ -323,8 +323,8 @@ export default function App() {
 
         {payoffInfo.months === Infinity && (
           <p style={{ color: "crimson" }}>
-            Achtung: Mit dieser Rate ist der Kredit nicht abzahlbar (Rate deckt nicht
-            einmal die Zinsen).
+            Achtung: Mit dieser Rate ist der Kredit nicht abzahlbar (Rate deckt nicht einmal die
+            Zinsen).
           </p>
         )}
       </div>
@@ -380,6 +380,32 @@ export default function App() {
           </div>
         )}
       </div>
+
+      {/* Footer mit Links zu Rechtstexten */}
+      <footer
+        style={{
+          marginTop: 60,
+          padding: 20,
+          textAlign: "center",
+          borderTop: "1px solid #ddd",
+          fontSize: 14,
+        }}
+      >
+        <Link to="/impressum">Impressum</Link> |{" "}
+        <Link to="/datenschutz">Datenschutz</Link> |{" "}
+        <Link to="/haftung">Haftungsausschluss</Link>
+      </footer>
     </div>
+  );
+
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/impressum" element={<Impressum />} />
+        <Route path="/datenschutz" element={<Datenschutz />} />
+        <Route path="/haftung" element={<Haftung />} />
+      </Routes>
+    </HashRouter>
   );
 }
